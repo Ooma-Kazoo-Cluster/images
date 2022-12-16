@@ -39,6 +39,12 @@ jobs:
           - image: typha
             repo: docker.io/calico
             copyAs: calico/typha
+          - image: pod2daemon-flexvol
+            repo: docker.io/calico
+            copyAs: calico/pod2daemon-flexvol
+          - image: cni
+            repo: docker.io/calico
+            copyAs: calico/cni
     steps:
       - uses: actions/checkout@v3
       - uses: docker/login-action@v2
