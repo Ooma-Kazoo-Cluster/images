@@ -1,0 +1,41 @@
+name: Mirror Dockerhub
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  mirror:
+    name: Mirror
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - image: couchdb:2.3.1
+            repo: docker.io
+          - image: istio/pilot:1.15.3
+            repo: docker.io
+          - image: istio/pilot:1.16.1
+            repo: docker.io
+          - image: istio/proxyv2:1.16.1
+            repo: docker.io
+          - image: istio/proxyv2:1.15.3
+            repo: docker.io
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
+      - uses: actions/setup-go@v3
+      - uses: imjasonh/setup-crane@v0.2
+      - name: Mirror
+        run: |
+          for tag in $(cat ./images/${{ matrix.image }}); do
+            crane copy \
+              ${{ matrix.repo }}/${{ matrix.image }}:$tag \
+              ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:$tag
+          done
+
