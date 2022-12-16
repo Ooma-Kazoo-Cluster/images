@@ -45,6 +45,9 @@ jobs:
           - image: cni
             repo: docker.io/calico
             copyAs: calico/cni
+          - image: karpenter-oracle
+            repo: noksa
+            copyAs: noksa/karpenter-oracle
     steps:
       - uses: actions/checkout@v3
       - uses: docker/login-action@v2
