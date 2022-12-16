@@ -40,6 +40,6 @@ jobs:
           for tag in $(cat ./images/${{ matrix.image }}); do
             crane copy \
               ${{ matrix.repo }}/${{ matrix.image }}:$tag \
-              ghcr.io/${{ OWNER_LC }}/${{ matrix.copyAs }}:$tag
+              ghcr.io/${OWNER_LC}/${{ matrix.copyAs }}:$tag
           done
 
