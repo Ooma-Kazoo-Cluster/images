@@ -21,6 +21,24 @@ jobs:
           - image: proxyv2
             repo: docker.io/istio
             copyAs: istio/proxyv2
+          - image: external-dns
+            repo: bitnami
+            copyAs: bitnami/external-dns
+          - image: mongodb
+            repo: bitnami
+            copyAs: bitnami/mongodb
+          - image: apiserver
+            repo: docker.io/calico
+            copyAs: calico/apiserver
+          - image: kube-controllers
+            repo: docker.io/calico
+            copyAs: calico/kube-controllers
+          - image: node
+            repo: docker.io/calico
+            copyAs: calico/node
+          - image: typha
+            repo: docker.io/calico
+            copyAs: calico/typha
     steps:
       - uses: actions/checkout@v3
       - uses: docker/login-action@v2
