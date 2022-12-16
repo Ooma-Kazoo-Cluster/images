@@ -14,14 +14,10 @@ jobs:
         include:
           - image: couchdb:2.3.1
             repo: docker.io
-          - image: istio/pilot:1.15.3
-            repo: docker.io
-          - image: istio/pilot:1.16.1
-            repo: docker.io
-          - image: istio/proxyv2:1.16.1
-            repo: docker.io
-          - image: istio/proxyv2:1.15.3
-            repo: docker.io
+          - image: pilot
+            repo: docker.io/istio
+          - image: proxyv2
+            repo: docker.io/istio
     steps:
       - uses: actions/checkout@v3
       - uses: docker/login-action@v2
