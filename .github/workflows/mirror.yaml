@@ -12,12 +12,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: couchdb:2.3.1
+          - image: couchdb
             repo: docker.io
+            copyAs: couchdb
           - image: pilot
             repo: docker.io/istio
+            copyAs: istio/pilot
           - image: proxyv2
             repo: docker.io/istio
+            copyAs: istio/proxyv2
     steps:
       - uses: actions/checkout@v3
       - uses: docker/login-action@v2
@@ -27,11 +30,16 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-go@v3
       - uses: imjasonh/setup-crane@v0.2
+      - name: set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.repository_owner }}'
       - name: Mirror
         run: |
           for tag in $(cat ./images/${{ matrix.image }}); do
             crane copy \
               ${{ matrix.repo }}/${{ matrix.image }}:$tag \
-              ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:$tag
+              ghcr.io/${{ OWNER_LC }}/${{ matrix.copyAs }}:$tag
           done
 
