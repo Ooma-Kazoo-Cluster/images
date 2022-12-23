@@ -48,6 +48,9 @@ jobs:
           - image: karpenter-oracle
             repo: noksa
             copyAs: noksa/karpenter-oracle
+          - image: bash
+            repo: docker.io
+            copyAs: bash
     steps:
       - uses: actions/checkout@v3
       - uses: docker/login-action@v2
